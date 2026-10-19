@@ -115,8 +115,4 @@ function reader.findStartCode(self: bitReader, code: number): number
 	return -1
 end
 
-function loaderFrom()
-
-end
-
 return reader

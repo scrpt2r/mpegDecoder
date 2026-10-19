@@ -863,6 +863,7 @@ function mpeg.decodeBlock(self: mpeg, block: number)
 		else
 			mpeg.IDCT(self, self.blockData)
 			mpeg.addBlockToDestination(self, self.blockData, destArray, destIndex, scan)
+
 			for i = 1, 64 do
 				self.blockData[i] = 0
 			end
@@ -1008,12 +1009,6 @@ function mpeg.decodePicture(self: mpeg)
 		return
 	end
 
-	local a, b, c
-	      d, e, f
-							if a == 0 then
-							    print("AA")
-							end
-
 	if self.pictureType == constants.PICTURE_TYPE.PREDICTIVE then
 		self.fullPelForward = (bitReader.read(self.bits, 1) == 1) -- a
 		self.forwardFCode = bitReader.read(self.bits, 3)
@@ -1030,6 +1025,7 @@ function mpeg.decodePicture(self: mpeg)
 	repeat
 		code = bitReader.findNextStartCode(self.bits)
 	until code ~= constants.START.EXTENSION and code ~= constants.START.USER_DATA
+
 
 	while code >= constants.START.SLICE_FIRST and code <= constants.START.SLICE_LAST do
 		mpeg.decodeSlice(self, bit32.band(code, 0x000000FF))
